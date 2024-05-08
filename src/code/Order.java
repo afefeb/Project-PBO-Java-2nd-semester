@@ -6,7 +6,7 @@ import code.vehicle.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-class Order {
+public class Order {
     private LocalDate bookingDate;
     private int orderNumber, deliveryCost, totalPrice, vehicleQuantity;
     private double totalDiscount;

@@ -26,8 +26,10 @@ public class Coba {
             if (dataUser.isMember(username, password)) {
                 System.out.println("Login successful!");
                 Member member = new Member();
-                member.setFirstName("Jane");
-                member.setLastName("Smith");
+                System.out.print("Input First Name : ");
+                member.setFirstName(sc.nextLine());
+                System.out.print("Input Last Name : ");
+                member.setLastName(sc.nextLine());
 
 
             } else {
