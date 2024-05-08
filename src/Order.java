@@ -5,11 +5,11 @@ class Order {
     private LocalDate bookingDate;
     private int orderNumber, deliveryCost, totalPrice, vehicleQuantity;
     private double totalDiscount;
-    private Kendaraan vehicle;
+    private Vehicle vehicle;
     private OrderStatus orderStatus;
     ArrayList<Customer> customers;
 
-    public Order(LocalDate bookingDate, int orderNumber, int deliveryCost, int vehicleQuantity, Kendaraan vehicle) {
+    public Order(LocalDate bookingDate, int orderNumber, int deliveryCost, int vehicleQuantity, Vehicle vehicle) {
         this.bookingDate = bookingDate;
         this.orderNumber = orderNumber;
         this.deliveryCost = deliveryCost;
@@ -26,7 +26,7 @@ class Order {
     public void printDetails() {
         System.out.println("Order Number: " + orderNumber);
         System.out.println("Booking Date: " + bookingDate);
-        System.out.println("Vehicle: " + vehicle.getNomorKendaraan());
+        System.out.println("Vehicle: " + vehicle.getvehicleNumber());
         System.out.println("Quantity: " + vehicleQuantity);
         System.out.println("Delivery Cost: " + deliveryCost);
         System.out.println("Total Discount: " + totalDiscount);
