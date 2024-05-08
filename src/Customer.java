@@ -17,7 +17,7 @@ abstract class Customer {
     }
 
     public String getFullName() {
-        return firstName + lastName;
+        return firstName + " " + lastName;
     }
 
     public abstract void makeOrder();
