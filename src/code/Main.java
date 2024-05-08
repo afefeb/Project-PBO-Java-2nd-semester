@@ -104,6 +104,8 @@ public class Main {
             System.out.println();
             pelanggan[i].getPemesanan().display();
             System.out.println();
+            System.out.println();
+            System.out.println();
         }
         sc.close();
     }
