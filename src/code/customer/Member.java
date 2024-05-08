@@ -6,14 +6,14 @@ import java.time.Period;
 public class Member extends Customer {
     private LocalDate signUpTime;
 
-    public Member(int signUpDate, int signUpMonth, int signUpYear) {
+    public Member() {
         super();
-        this.signUpTime = LocalDate.of(signUpYear, signUpMonth, signUpDate);
+        this.signUpTime = LocalDate.now();
     }
 
     @Override
-    public void makeOrder() {
-        isOrdering = true;
+    public void makeOrder(){
+            isOrdering = true;
     }
 
     public String membershipDuration() {
