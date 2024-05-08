@@ -1,0 +1,44 @@
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+class Order {
+    private LocalDate bookingDate;
+    private int orderNumber, deliveryCost, totalPrice, vehicleQuantity;
+    private double totalDiscount;
+    private Kendaraan vehicle;
+    private OrderStatus orderStatus;
+    ArrayList<Customer> customers;
+
+    public Order(LocalDate bookingDate, int orderNumber, int deliveryCost, int vehicleQuantity, Kendaraan vehicle) {
+        this.bookingDate = bookingDate;
+        this.orderNumber = orderNumber;
+        this.deliveryCost = deliveryCost;
+        this.vehicleQuantity = vehicleQuantity;
+        this.vehicle = vehicle;
+        this.orderStatus = OrderStatus.UNPAID;
+        this.customers = new ArrayList<>();
+    }
+
+    public void checkOut() {
+        orderStatus = OrderStatus.SUCCESSFULL;
+    }
+
+    public void printDetails() {
+        System.out.println("Order Number: " + orderNumber);
+        System.out.println("Booking Date: " + bookingDate);
+        System.out.println("Vehicle: " + vehicle.getNomorKendaraan());
+        System.out.println("Quantity: " + vehicleQuantity);
+        System.out.println("Delivery Cost: " + deliveryCost);
+        System.out.println("Total Discount: " + totalDiscount);
+        System.out.println("Total Price: " + totalPrice);
+        System.out.println("Order Status: " + orderStatus);
+    }
+
+    public void applyPromo() {
+
+    }
+
+    public void pay() {
+
+    }
+}
