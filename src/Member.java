@@ -4,9 +4,9 @@ import java.time.Period;
 public class Member extends Customer {
     private LocalDate signUpTime;
 
-    public Member(int signUpdate, int signUpmonth, int signUpyear) {
+    public Member(int signUpDate, int signUpMonth, int signUpYear) {
         super();
-        this.signUpTime = LocalDate.of(signUpdate, signUpmonth, signUpyear);
+        this.signUpTime = LocalDate.of(signUpYear, signUpMonth, signUpDate);
     }
 
     @Override
