@@ -10,7 +10,7 @@ class Guest extends Customer {
     }
 
     @Override
-    public void confirmPay(int nomorPesanan) {
+    public void confirmPay(int orderNumber) {
 
     }
 }
