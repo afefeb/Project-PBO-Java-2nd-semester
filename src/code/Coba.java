@@ -1,4 +1,6 @@
 package code;
+import code.customer.Guest;
+import code.customer.Member;
 import code.vehicle.*;
 import java.time.LocalDate;
 

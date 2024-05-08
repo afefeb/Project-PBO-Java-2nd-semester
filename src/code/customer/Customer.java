@@ -1,6 +1,6 @@
-package code;
+package code.customer;
 
-abstract class Customer {
+public abstract class Customer {
     private String firstName, lastName;
     public boolean isOrdering;
 

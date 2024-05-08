@@ -1,4 +1,4 @@
-package code;
+package code.customer;
 
 import java.time.LocalDate;
 import java.time.Period;

@@ -1,6 +1,8 @@
-package code;
+package code.customer;
 
-class Guest extends Customer {
+import code.customer.Customer;
+
+public class Guest extends Customer {
 
     public Guest() {
         super();

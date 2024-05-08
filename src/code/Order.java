@@ -1,6 +1,7 @@
 package code;
 
-import code.vehicle.Vehicle;
+import code.customer.Customer;
+import code.vehicle.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
