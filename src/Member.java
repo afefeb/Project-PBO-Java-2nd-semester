@@ -2,11 +2,11 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Member extends Customer {
-    private LocalDate tanggalMendaftar;
+    private LocalDate signUpTime;
 
-    public Member(int tanggalDaftar, int bulanDaftar, int tahunDaftar) {
+    public Member(int signUpDate, int signUpMonth, int signUpYear) {
         super();
-        this.tanggalMendaftar = LocalDate.of(tanggalDaftar, bulanDaftar, tahunDaftar);
+        this.signUpTime = LocalDate.of(signUpYear, signUpMonth, signUpDate);
     }
 
     @Override
@@ -14,24 +14,24 @@ public class Member extends Customer {
         isOrdering = true;
     }
 
-    public String hitungLamaKeanggotaan() {
-        LocalDate hariIni = LocalDate.now();
-        Period periode = Period.between(tanggalMendaftar, hariIni);
+    public String membershipDuration() {
+        LocalDate today = LocalDate.now();
+        Period period = Period.between(signUpTime, today);
 
-        int tahun = periode.getYears();
-        int bulan = periode.getMonths();
+        int year = period.getYears();
+        int month = period.getMonths();
 
-        if (tahun == 0) {
-            return bulan + " bulan";
-        } else if (bulan == 0) {
-            return tahun + " tahun";
+        if (year == 0) {
+            return month + " bulan";
+        } else if (month == 0) {
+            return year + " tahun";
         } else {
-            return tahun + " tahun dan " + bulan + " bulan";
+            return year + " tahun dan " + month + " bulan";
         }
     }
 
     @Override
-    public void confirmPay(int nomorPesanan) {
+    public void confirmPay(int orderNumber) {
 
     }
 }
