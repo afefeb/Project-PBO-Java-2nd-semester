@@ -1,3 +1,5 @@
+package code;
+import code.vehicle.*;
 import java.time.LocalDate;
 
 public class Coba {

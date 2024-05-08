@@ -1,3 +1,7 @@
+package code;
+
+import code.vehicle.Vehicle;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -24,14 +28,14 @@ class Order {
     }
 
     public void printDetails() {
-        System.out.println("Order Number: " + orderNumber);
+        System.out.println("code.Order Number: " + orderNumber);
         System.out.println("Booking Date: " + bookingDate);
-        System.out.println("Vehicle: " + vehicle.getvehicleNumber());
+        System.out.println("code.vehicle.Vehicle: " + vehicle.getvehicleNumber());
         System.out.println("Quantity: " + vehicleQuantity);
         System.out.println("Delivery Cost: " + deliveryCost);
         System.out.println("Total Discount: " + totalDiscount);
         System.out.println("Total Price: " + totalPrice);
-        System.out.println("Order Status: " + orderStatus);
+        System.out.println("code.Order Status: " + orderStatus);
     }
 
     public void applyPromo() {
