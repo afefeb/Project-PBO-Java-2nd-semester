@@ -18,9 +18,9 @@ enum OrderStatus {
 public class Order {
     private LocalDate bookingDate ;
     private int deliveryCost, vehicleQuantity, duration;
-    private int count = 0;
-    private int orderNumber;
-    private double totalDiscount,totalPrice;
+    private static int count = 0;
+    private static int orderNumber = 0 ;
+    private double totalDiscount = 0 ,totalPrice;
     private Vehicle vehicle;
     private OrderStatus orderStatus;
     private Customer customer;
@@ -35,8 +35,8 @@ public class Order {
     // 3. Durasi Peminjaman
 
     public Order() {
-        count++;
         this.orderStatus = OrderStatus.UNPAID;
+        this.vehicle = null;
         /// * this.customers = new ArrayList<>(); */
 
         /*
@@ -121,6 +121,7 @@ public class Order {
     }
 
     public void checkOut() {
+        orderNumber++;
         bookingDate = LocalDate.now();
         System.out.printf("Order ID : %03d\n", orderNumber);
         System.out.println("Booking Date: " + bookingDate);
@@ -129,14 +130,14 @@ public class Order {
     }
 
     public void printDetails() {
-        System.out.println("code.Order Number: " + orderNumber);
+        System.out.println("Order Number: " + orderNumber);
         System.out.println("Booking Date: " + bookingDate);
-        System.out.println("code.vehicle.Vehicle: " + vehicle.getvehicleNumber());
+        System.out.println("Returning Date: " + returnDate(duration));
         System.out.println("Quantity: " + vehicleQuantity);
-        System.out.println("Delivery Cost: " + deliveryCost);
         System.out.println("Total Discount: " + totalDiscount);
         System.out.println("Total Price: " + totalPrice);
-        System.out.println("code.Order Status: " + orderStatus);
+        System.out.println("Order Status: " + orderStatus);
+        System.out.println("Id: " + customer.getId());
     }
 
 
@@ -145,7 +146,7 @@ public class Order {
             return;
         }
         if (promo instanceof PercentOffPromo) {
-            if (promo.isCustomerEligible(customer) && promo.isMinimumPriceEligible(this)) {
+            if (promo.isMinimumPriceEligible(this)) {
                 try {
                     totalDiscount = promo.calculateDiscount(this);
                     if (totalDiscount > totalPrice || totalDiscount < 0) {
@@ -161,13 +162,13 @@ public class Order {
         }
         else if (promo instanceof CashbackPromo) {
             CashbackPromo cashbackPromo = (CashbackPromo) promo;
-            if (cashbackPromo.isCustomerEligible(customer) && cashbackPromo.isMinimumPriceEligible(this)) {
+            if (cashbackPromo.isMinimumPriceEligible(this)) {
                 try {
-                    totalDiscount = cashbackPromo.calculateDiscount(this);
+                    totalDiscount += cashbackPromo.calculateCashback(this);
+                    totalPrice -= totalDiscount;
                     if (totalDiscount > totalPrice || totalDiscount < 0) {
                         throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
                     }
-                    totalPrice -= totalDiscount;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Error: " + e.getMessage());
                 }
@@ -196,5 +197,9 @@ public class Order {
 
     public void pay() {
         orderStatus = OrderStatus.SUCCESSFUL;
+    }
+
+    public void setCustomer(Customer customer){
+        this.customer = customer;
     }
 }

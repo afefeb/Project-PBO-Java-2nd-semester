@@ -13,7 +13,7 @@ public class CashbackPromo extends Promotion implements  Applicable{
     public boolean isCustomerEligible(Customer customer) {
         LocalDate currentDate = LocalDate.now();
         if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
-            return customer instanceof Guest;
+            return true;
         } else {
             return false;
         }

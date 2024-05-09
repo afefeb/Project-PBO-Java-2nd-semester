@@ -11,7 +11,7 @@ public class PercentOffPromo extends Promotion{
     public boolean isCustomerEligible(Customer customer) {
         LocalDate currentDate = LocalDate.now();
         if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
-            return customer instanceof Member;
+            return true;
         } else {
             return false;
         }
