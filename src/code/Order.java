@@ -137,7 +137,6 @@ public class Order {
         System.out.println("Total Discount: " + totalDiscount);
         System.out.println("Total Price: " + totalPrice);
         System.out.println("Order Status: " + orderStatus);
-        System.out.println("Id: " + customer.getId());
     }
 
 
