@@ -1,14 +1,8 @@
 package code.promotion;
 import java.time.LocalDate;
-public abstract class Promotion {
+public abstract class Promotion implements Applicable{
     protected String promoCode;
-    protected LocalDate startDate;
-    protected LocalDate endDate;
-    public Promotion(String promoCode, LocalDate startDate, LocalDate endDate) {
-        this.promoCode = promoCode;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-    //Ini masih gak tau promosinya buat apa
-    public abstract void applyPromotion();
+    protected final LocalDate startDate = LocalDate.of(2024, 5, 9);
+    protected final LocalDate endDate = LocalDate.of(2024, 6, 9);
+
 }

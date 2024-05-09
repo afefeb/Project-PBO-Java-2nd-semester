@@ -24,11 +24,11 @@ public class Member extends Customer {
         int month = period.getMonths();
 
         if (year == 0) {
-            return month + " bulan";
+            return month + " month";
         } else if (month == 0) {
-            return year + " tahun";
+            return year + " year";
         } else {
-            return year + " tahun dan " + month + " bulan";
+            return year + " year and " + month + " month";
         }
     }
 
