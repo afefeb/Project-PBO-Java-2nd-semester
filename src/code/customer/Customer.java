@@ -1,5 +1,6 @@
 package code.customer;
 
+import java.time.LocalDate;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -11,6 +12,10 @@ public abstract class Customer {
     private int countLogin;
     public static SortedMap<Integer, Boolean> IDOrderList = new TreeMap<>();
 
+    public Customer(String id, int balance){
+        this.id = id;
+        this.balance = balance;
+    }
     public Customer() {
         this.firstName = "";
         this.lastName = "";

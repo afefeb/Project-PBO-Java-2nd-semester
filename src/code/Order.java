@@ -2,9 +2,9 @@ package code;
 import code.customer.Customer;
 import code.customer.Guest;
 import code.customer.Member;
-import code.promotion.CashbackPromo;
-import code.promotion.PercentOffPromo;
-import code.promotion.Promotion;
+//import code.promotion.CashbackPromo;
+//import code.promotion.PercentOffPromo;
+//import code.promotion.Promotion;
 import code.vehicle.*;
 
 import java.time.LocalDate;
@@ -23,27 +23,30 @@ public class Order {
     private double totalDiscount = 0 ,totalPrice;
     private Vehicle vehicle;
     private OrderStatus orderStatus;
+    private String menuID, menuName;
     private Customer customer;
-    // ArrayList<Customer> customers;
+
 
     public int getOrderNumber() {
         return orderNumber;
     }
 
-    // 1. Milih jenis kendaraan
-    // 2. Jumlahnya
-    // 3. Durasi Peminjaman
-
-    public Order() {
-        this.orderStatus = OrderStatus.UNPAID;
-        this.vehicle = null;
-        /// * this.customers = new ArrayList<>(); */
-
-        /*
-         * this.deliveryCost = deliveryCost;
-         * this.vehicle = vehicle;
-         */
+    public Order(String menuID, String menuName, String numberPlate, int price){
+        this.menuID = menuID;
+        this.menuName=menuName;
+        this.vehicle = new Motorcycle(numberPlate, price);
     }
+
+    public Order(String menuID, String menuName, String numberPlate, int price,String customType){
+        this.menuID = menuID;
+        this.menuName=menuName;
+        this.vehicle = new Car(numberPlate, price, customType);
+    }
+
+//    public Order() {
+//        this.orderStatus = OrderStatus.UNPAID;
+//        this.vehicle = null;
+//    }
 
 
     public void setVehicleQuantity(int vehicleQuantity) {
@@ -54,71 +57,71 @@ public class Order {
         this.duration = duration;
     }
 
-    public Customer register(Scanner sc, String subscriptionType) {
-        if (subscriptionType.equalsIgnoreCase("member")) {
-            System.out.println("Membership Filkom Travel :");
-            System.out.println("Please enter the data to create a new member account.");
-        } else if (subscriptionType.equalsIgnoreCase("guest")) {
-            System.out.println("Guest Filkom Travel :");
-            System.out.println("Please enter the data to create a new guest account.");
-        } else {
-            return null;
-        }
-        System.out.print("First Name : ");
-        String namaDepan = sc.nextLine();
-        System.out.print("Last Name : ");
-        String namaBelakang = sc.nextLine();
-        String pin;
-        String id = "";
+//    public Customer register(Scanner sc, String subscriptionType) {
+//        if (subscriptionType.equalsIgnoreCase("member")) {
+//            System.out.println("Membership Filkom Travel :");
+//            System.out.println("Please enter the data to create a new member account.");
+//        } else if (subscriptionType.equalsIgnoreCase("guest")) {
+//            System.out.println("Guest Filkom Travel :");
+//            System.out.println("Please enter the data to create a new guest account.");
+//        } else {
+//            return null;
+//        }
+//        System.out.print("First Name : ");
+//        String namaDepan = sc.nextLine();
+//        System.out.print("Last Name : ");
+//        String namaBelakang = sc.nextLine();
+//        String pin;
+//        String id = "";
+//
+//        count++;
+//        if (subscriptionType.equals("member")) {
+//            id = "9" + addZeroNum(count, 3);
+//        } else {
+//            id = "1" + addZeroNum(count, 3);
+//        }
+//
+//        System.out.println("Create your 6-digit pin: ");
+//        pin = sc.nextLine();
+//        Customer akun;
+//        if (subscriptionType.equals("member")) {
+//            akun = new Member();
+//        } else {
+//            akun = new Guest();
+//        }
+//        akun.setFirstName(namaDepan);
+//        akun.setLastName(namaBelakang);
+//        akun.setId(id);
+//        akun.setPin(pin);
+//        this.customer = akun;
+//        return akun;
+//    }
 
-        count++;
-        if (subscriptionType.equals("member")) {
-            id = "9" + addZeroNum(count, 3);
-        } else {
-            id = "1" + addZeroNum(count, 3);
-        }
+//    public String[] login(Scanner sc, ArrayList<Customer> daftarAkun) {
+//        System.out.println("Masukkan data untuk login!");
+//        String[] data = new String[3];
+//        System.out.print("First name : ");
+//        String a = sc.nextLine();
+//        System.out.print("Last name : ");
+//        String b = sc.nextLine();
+//        data[0] = a + " " + b;
+//        System.out.print("ID : ");
+//        data[1] = sc.nextLine();
+//        System.out.print("Pin : ");
+//        data[2] = sc.nextLine();
+//        return data;
+//    }
 
-        System.out.println("Create your 6-digit pin: ");
-        pin = sc.nextLine();
-        Customer akun;
-        if (subscriptionType.equals("member")) {
-            akun = new Member();
-        } else {
-            akun = new Guest();
-        }
-        akun.setFirstName(namaDepan);
-        akun.setLastName(namaBelakang);
-        akun.setId(id);
-        akun.setPin(pin);
-        this.customer = akun;
-        return akun;
-    }
-
-    public String[] login(Scanner sc, ArrayList<Customer> daftarAkun) {
-        System.out.println("Masukkan data untuk login!");
-        String[] data = new String[3];
-        System.out.print("First name : ");
-        String a = sc.nextLine();
-        System.out.print("Last name : ");
-        String b = sc.nextLine();
-        data[0] = a + " " + b;
-        System.out.print("ID : ");
-        data[1] = sc.nextLine();
-        System.out.print("Pin : ");
-        data[2] = sc.nextLine();
-        return data;
-    }
-
-    public static String addZeroNum(int number, int length) {
-        String numStr = String.valueOf(number);
-        int addZero = Math.max(0, length - numStr.length());
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < addZero; i++) {
-            result.append("0");
-        }
-        result.append(numStr);
-        return result.toString();
-    }
+//    public static String addZeroNum(int number, int length) {
+//        String numStr = String.valueOf(number);
+//        int addZero = Math.max(0, length - numStr.length());
+//        StringBuilder result = new StringBuilder();
+//        for (int i = 0; i < addZero; i++) {
+//            result.append("0");
+//        }
+//        result.append(numStr);
+//        return result.toString();
+//    }
 
     public void checkOut() {
         orderNumber++;
@@ -140,42 +143,42 @@ public class Order {
     }
 
 
-    public void applyPromo(Promotion promo) {
-        if(promo==null){
-            return;
-        }
-        if (promo instanceof PercentOffPromo) {
-            if (promo.isMinimumPriceEligible(this)) {
-                try {
-                    totalDiscount = promo.calculateDiscount(this);
-                    if (totalDiscount > totalPrice || totalDiscount < 0) {
-                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
-                    }
-                    totalPrice -= totalDiscount;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Error: " + e.getMessage());
-                }
-            } else {
-                System.out.println("This PercentOff promotion is not applicable.");
-            }
-        }
-        else if (promo instanceof CashbackPromo) {
-            CashbackPromo cashbackPromo = (CashbackPromo) promo;
-            if (cashbackPromo.isMinimumPriceEligible(this)) {
-                try {
-                    totalDiscount += cashbackPromo.calculateCashback(this);
-                    totalPrice -= totalDiscount;
-                    if (totalDiscount > totalPrice || totalDiscount < 0) {
-                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Error: " + e.getMessage());
-                }
-            } else {
-                System.out.println("This CashBack promotion is not applicable.");
-            }
-        }
-    }
+//    public void applyPromo(Promotion promo) {
+//        if(promo==null){
+//            return;
+//        }
+//        if (promo instanceof PercentOffPromo) {
+//            if (promo.isMinimumPriceEligible(this)) {
+//                try {
+//                    totalDiscount = promo.calculateDiscount(this);
+//                    if (totalDiscount > totalPrice || totalDiscount < 0) {
+//                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
+//                    }
+//                    totalPrice -= totalDiscount;
+//                } catch (IllegalArgumentException e) {
+//                    System.out.println("Error: " + e.getMessage());
+//                }
+//            } else {
+//                System.out.println("This PercentOff promotion is not applicable.");
+//            }
+//        }
+//        else if (promo instanceof CashbackPromo) {
+//            CashbackPromo cashbackPromo = (CashbackPromo) promo;
+//            if (cashbackPromo.isMinimumPriceEligible(this)) {
+//                try {
+//                    totalDiscount += cashbackPromo.calculateCashback(this);
+//                    totalPrice -= totalDiscount;
+//                    if (totalDiscount > totalPrice || totalDiscount < 0) {
+//                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
+//                    }
+//                } catch (IllegalArgumentException e) {
+//                    System.out.println("Error: " + e.getMessage());
+//                }
+//            } else {
+//                System.out.println("This CashBack promotion is not applicable.");
+//            }
+//        }
+//    }
 
     public double getTotalPrice() {
         return totalPrice;
@@ -198,7 +201,11 @@ public class Order {
         orderStatus = OrderStatus.SUCCESSFUL;
     }
 
-    public void setCustomer(Customer customer){
-        this.customer = customer;
+    public String getMenuID() {
+        return menuID;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 }

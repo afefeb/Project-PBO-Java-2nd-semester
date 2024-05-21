@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.Period;
 
 public class Member extends Customer {
-    private LocalDate signUpTime;
+    private LocalDate date;
+    private String memberName;
 
-    public Member() {
-        super();
-        this.signUpTime = LocalDate.now();
+    public Member(String memberID, String memberName, LocalDate date, int memberBalance){
+        super(memberID,memberBalance);
+        this.memberName = memberName;
+        this.date = date;
     }
 
     @Override
@@ -18,7 +20,7 @@ public class Member extends Customer {
 
     public String membershipDuration() {
         LocalDate today = LocalDate.now();
-        Period period = Period.between(signUpTime, today);
+        Period period = Period.between(date, today);
 
         int year = period.getYears();
         int month = period.getMonths();

@@ -2,9 +2,13 @@ package code.customer;
 
 public class Guest extends Customer {
 
-    public Guest() {
-        super();
+    public Guest(String guestID, int guestBudget) {
+        super(guestID,guestBudget);
     }
+
+
+
+
 
     @Override
     public void makeOrder() {

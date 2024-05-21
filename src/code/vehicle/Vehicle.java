@@ -1,11 +1,11 @@
 package code.vehicle;
 
 public class Vehicle {
-    private String vehicleNumber;
+    private String numberPlate;
     private int price;
 
-    public Vehicle(String vehicleNumber, int price) {
-        this.vehicleNumber = vehicleNumber;
+    public Vehicle(String numberPlate, int price) {
+        this.numberPlate = numberPlate;
         this.price = price;
     }
 
@@ -13,7 +13,7 @@ public class Vehicle {
     }
 
     public String getvehicleNumber() {
-        return vehicleNumber;
+        return numberPlate;
     }
 
     public int getPrice() {

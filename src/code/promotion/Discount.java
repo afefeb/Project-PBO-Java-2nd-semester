@@ -2,10 +2,13 @@ package code.promotion;
 
 import code.Order;
 import code.customer.Customer;
-import code.customer.Member;
 import java.time.LocalDate;
 
-public class PercentOffPromo extends Promotion{
+public class Discount extends Promotion{
+    public Discount(String promoCode, LocalDate startDate, LocalDate endDate, int percentOff,int maxDiscount,int minPurchase){
+        super(promoCode, startDate, endDate, percentOff, maxDiscount, minPurchase);
+
+    }
 
     @Override
     public boolean isCustomerEligible(Customer customer) {
@@ -41,4 +44,6 @@ public class PercentOffPromo extends Promotion{
     public double calculateShippingCost(Order order) {
         return 0;
     }
+
+
 }
