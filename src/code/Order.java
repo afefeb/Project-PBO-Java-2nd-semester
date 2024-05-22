@@ -23,12 +23,20 @@ public class Order {
     private double totalDiscount = 0 ,totalPrice;
     private Vehicle vehicle;
     private OrderStatus orderStatus;
-    private String menuID, menuName;
+    private String menuID;
+    private String menuName;
+
     private Customer customer;
 
 
     public int getOrderNumber() {
         return orderNumber;
+    }
+
+    public Order(String menuID, int duration, LocalDate bookingDate) {
+        this.menuID = menuID;
+        this.duration = duration;
+        this.bookingDate = bookingDate;
     }
 
     public Order(String menuID, String menuName, String numberPlate, int price){
@@ -207,5 +215,17 @@ public class Order {
 
     public Vehicle getVehicle() {
         return vehicle;
+    }
+
+    public void updateDuration(int duration) {
+        this.duration += duration;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public String getNumberPlate() {
+        return vehicle.getvehicleNumber();
     }
 }

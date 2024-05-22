@@ -3,6 +3,8 @@ package code.customer;
 import java.time.LocalDate;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import code.Order;
+import java.util.ArrayList;
 
 public abstract class Customer {
     private String firstName, lastName, id, pin;
@@ -10,6 +12,7 @@ public abstract class Customer {
     public boolean isOrdering;
     private boolean active;
     private int countLogin;
+    private ArrayList<Order> listOrder = new ArrayList<>();
     public static SortedMap<Integer, Boolean> IDOrderList = new TreeMap<>();
 
     public Customer(String id, int balance){
@@ -97,4 +100,26 @@ public abstract class Customer {
     public abstract void makeOrder();
 
     public abstract boolean confirmPay(int orderNumber);
+
+    public void addToCart(Order order) {
+        listOrder.add(order);
+    }
+
+    public boolean isOrderExist(String orderID) {
+        for (Order order : listOrder) {
+            if (order.getMenuID().equals(orderID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Order getOrder(String orderID) {
+        for (Order order : listOrder) {
+            if (order.getMenuID().equals(orderID)) {
+                return order;
+            }
+        }
+        return null;
+    }
 }

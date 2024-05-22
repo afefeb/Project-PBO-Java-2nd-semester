@@ -24,6 +24,7 @@ public class Main2 {
         //input create member
         // CREATE MEMBER1 ID|NAMA|TANGGAL|SALDOAWAL
         // CREATE GUEST IDTAMU | SALDO AWAL
+
         String[] input = sc.nextLine().split(" ");
         if(input[0].equals("CREATE")) {
             String[] data = input[2].split("\\|");
@@ -96,11 +97,31 @@ public class Main2 {
                 }
             }
         }
+
         if(input[0].equals("ADD_TO_CART")){
             String addOrderID = input[1];
             String addMenuID = input[2];
             int addQuantity = Integer.parseInt(input[3]);
             LocalDate addStartLoanDate = LocalDate.parse(input[4], formatter);
+            if (isCustomerExist(listCustomer, addOrderID) && isExistMenuID(listMenu, addMenuID)) {
+                Customer customer = getCustomer(listCustomer, addOrderID);
+                listCustomer.remove(customer);
+                Order order = customer.getOrder(addOrderID);
+                boolean isUpdated;
+                if (customer.isOrderExist(addMenuID)) {
+                    order.updateDuration(addQuantity);
+                    isUpdated = true;
+                }
+                else {
+                    customer.addToCart(new Order(addMenuID, addQuantity, addStartLoanDate));
+                    isUpdated = false;
+                }
+                listCustomer.add(customer);
+                System.out.printf("ADD_TO_CART SUCCESS: %d %s %s %s %s", addQuantity, (addQuantity > 1 ? "days" : "day"), order.getMenuName(), order.getNumberPlate(), (isUpdated ? "(UPDATED)" : "(NEW)"));
+            }
+            else {
+                System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+            }
         }
         if(input[0].equals("REMOVE_FROM_CART")){
             String removeOrderID = input[1];
@@ -178,5 +199,23 @@ public class Main2 {
             }
         }
         return false;
+    }
+
+    public static boolean isCustomerExist(ArrayList<Customer> customers, String customerID) {
+        for (Customer customer : customers) {
+            if (customer.getId().equals(customerID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Customer getCustomer(ArrayList<Customer> customers, String customerID) {
+        for (Customer customer : customers) {
+            if (customer.getId().equals(customerID)) {
+                return customer;
+            }
+        }
+        return null;
     }
 }
