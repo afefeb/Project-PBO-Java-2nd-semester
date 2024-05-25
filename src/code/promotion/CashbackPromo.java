@@ -2,9 +2,11 @@ package code.promotion;
 
 import code.Order;
 import code.customer.Customer;
+import code.customer.Member;
 
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class CashbackPromo extends Promotion {
 
@@ -15,12 +17,10 @@ public class CashbackPromo extends Promotion {
 
     @Override
     public boolean isCustomerEligible(Customer customer) {
+        Member member = (Member) customer;
+        LocalDate registerDate = member.getDate();
         LocalDate currentDate = LocalDate.now();
-        if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
-            return true;
-        } else {
-            return false;
-        }
+        return ChronoUnit.DAYS.between(registerDate, currentDate) > 30;
     }
 
     @Override

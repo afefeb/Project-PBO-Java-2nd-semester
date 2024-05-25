@@ -105,21 +105,50 @@ public abstract class Customer {
         listOrder.add(order);
     }
 
-    public boolean isOrderExist(String orderID) {
-        for (Order order : listOrder) {
-            if (order.getMenuID().equals(orderID)) {
-                return true;
+    public void removeFromCart(String menuID, int duration) {
+        Order temp = null;
+        if (isOrderExist(menuID)) {
+            for (Order order : listOrder) {
+                if (order.getMenuID().equals(menuID)) {
+                    temp = order;
+                    break;
+                }
+            }
+            if (temp != null) {
+                temp.updateDuration(-duration);
+                if (temp.getDuration() <= 0) {
+                    listOrder.remove(temp);
+                    System.out.println("REMOVE_FROM_CART SUCCESS: " + temp.getMenuName() + " " + temp.getNumberPlate() + " IS REMOVED");
+                } else {
+                    System.out.println("REMOVE_FROM_CART SUCCESS: " + temp.getMenuName() + " " + temp.getNumberPlate() + " DURATION IS DECREMENTED");
+                }
+            }
+        } else {
+            System.out.println("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+        }
+    }
+
+    public boolean isOrderExist(String menuID) {
+        if (listOrder != null && !listOrder.isEmpty()) {
+            for (Order order : listOrder) {
+                if (order.getMenuID() != null && order.getMenuID().equals(menuID)) {
+                    return true;
+                }
             }
         }
         return false;
     }
 
-    public Order getOrder(String orderID) {
+
+    public Order getOrder(String menuID) {
         for (Order order : listOrder) {
-            if (order.getMenuID().equals(orderID)) {
+            if (order.getMenuID().equals(menuID)) {
                 return order;
             }
         }
         return null;
     }
+
+
+
 }

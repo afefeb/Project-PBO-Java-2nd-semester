@@ -1,10 +1,12 @@
 package code.promotion;
+import code.customer.Customer;
+
 import java.time.LocalDate;
 
 public abstract class Promotion implements Applicable{
     protected String promoCode;
-    protected LocalDate startDate = LocalDate.of(2024, 5, 9);
-    protected LocalDate endDate = LocalDate.of(2024, 6, 9);
+    protected LocalDate startDate;
+    protected LocalDate endDate ;
 
     protected int percentOff;
     protected int maxDiscount;
@@ -21,5 +23,9 @@ public abstract class Promotion implements Applicable{
 
     public String getPromoCode() {
         return promoCode;
+    }
+    public boolean isPromoAvailable() {
+        LocalDate currentDate = LocalDate.now();
+        return currentDate.isAfter(startDate) && currentDate.isBefore(endDate);
     }
 }

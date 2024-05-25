@@ -5,6 +5,7 @@ import code.customer.Member;
 //import code.promotion.CashbackPromo;
 //import code.promotion.PercentOffPromo;
 //import code.promotion.Promotion;
+import code.promotion.Promotion;
 import code.vehicle.*;
 
 import java.time.LocalDate;
@@ -31,6 +32,8 @@ public class Order {
 
     public int getOrderNumber() {
         return orderNumber;
+    }
+    public Order() {
     }
 
     public Order(String menuID, int duration, LocalDate bookingDate) {
@@ -151,42 +154,42 @@ public class Order {
     }
 
 
-//    public void applyPromo(Promotion promo) {
-//        if(promo==null){
-//            return;
-//        }
-//        if (promo instanceof PercentOffPromo) {
-//            if (promo.isMinimumPriceEligible(this)) {
-//                try {
-//                    totalDiscount = promo.calculateDiscount(this);
-//                    if (totalDiscount > totalPrice || totalDiscount < 0) {
-//                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
-//                    }
-//                    totalPrice -= totalDiscount;
-//                } catch (IllegalArgumentException e) {
-//                    System.out.println("Error: " + e.getMessage());
-//                }
-//            } else {
-//                System.out.println("This PercentOff promotion is not applicable.");
-//            }
-//        }
-//        else if (promo instanceof CashbackPromo) {
-//            CashbackPromo cashbackPromo = (CashbackPromo) promo;
-//            if (cashbackPromo.isMinimumPriceEligible(this)) {
-//                try {
-//                    totalDiscount += cashbackPromo.calculateCashback(this);
-//                    totalPrice -= totalDiscount;
-//                    if (totalDiscount > totalPrice || totalDiscount < 0) {
-//                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
-//                    }
-//                } catch (IllegalArgumentException e) {
-//                    System.out.println("Error: " + e.getMessage());
-//                }
-//            } else {
-//                System.out.println("This CashBack promotion is not applicable.");
-//            }
-//        }
-//    }
+    public void applyPromo(Promotion promo) {
+        if(promo==null){
+            return;
+        }
+        if (promo instanceof PercentOffPromo) {
+            if (promo.isMinimumPriceEligible(this)) {
+                try {
+                    totalDiscount = promo.calculateDiscount(this);
+                    if (totalDiscount > totalPrice || totalDiscount < 0) {
+                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
+                    }
+                    totalPrice -= totalDiscount;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            } else {
+                System.out.println("This PercentOff promotion is not applicable.");
+            }
+        }
+        else if (promo instanceof CashbackPromo) {
+            CashbackPromo cashbackPromo = (CashbackPromo) promo;
+            if (cashbackPromo.isMinimumPriceEligible(this)) {
+                try {
+                    totalDiscount += cashbackPromo.calculateCashback(this);
+                    totalPrice -= totalDiscount;
+                    if (totalDiscount > totalPrice || totalDiscount < 0) {
+                        throw new IllegalArgumentException("Invalid total discount value: " + totalDiscount);
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            } else {
+                System.out.println("This CashBack promotion is not applicable.");
+            }
+        }
+    }
 
     public double getTotalPrice() {
         return totalPrice;
@@ -225,7 +228,20 @@ public class Order {
         return menuName;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
     public String getNumberPlate() {
-        return vehicle.getvehicleNumber();
+        if(vehicle != null){
+            return vehicle.getvehicleNumber();
+        }
+        return "";
+    }
+
+    public void setBookingDate(LocalDate bookingDate) {
+        this.bookingDate = bookingDate;
     }
 }
+
+

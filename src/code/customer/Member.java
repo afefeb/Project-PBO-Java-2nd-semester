@@ -46,4 +46,12 @@ public class Member extends Customer {
             return false;
         }
     }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
 }
