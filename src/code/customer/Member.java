@@ -1,11 +1,16 @@
 package code.customer;
 
+import code.promotion.*;
+
 import java.time.LocalDate;
-import java.time.Period;
+import java.util.ArrayList;
 
 public class Member extends Customer {
     private LocalDate date;
     private String memberName;
+    private double discount;
+    private int cashback;
+    private Promotion promo;
 
     public Member(String memberID, String memberName, LocalDate date, int memberBalance){
         super(memberID,memberBalance);
@@ -13,45 +18,82 @@ public class Member extends Customer {
         this.date = date;
     }
 
-    @Override
-    public void makeOrder(){
-            isOrdering = true;
-    }
-
-    public String membershipDuration() {
-        LocalDate today = LocalDate.now();
-        Period period = Period.between(date, today);
-
-        int year = period.getYears();
-        int month = period.getMonths();
-
-        if (year == 0) {
-            return month + " month";
-        } else if (month == 0) {
-            return year + " year";
-        } else {
-            return year + " year and " + month + " month";
-        }
-    }
-
-    @Override
-    public boolean confirmPay(int orderNumber) {
-        if (IDOrderList.containsKey(orderNumber)) {
-            IDOrderList.put(orderNumber, true);
-            System.out.println("This ID is valid. Please proceed with the payment.");
-            return true;
-        }
-        else {
-            System.out.println("This ID is invalid.");
-            return false;
-        }
-    }
-
     public String getMemberName() {
         return memberName;
     }
 
+    public String getFirstName() {
+        return memberName.split(" ")[0];
+    }
+
     public LocalDate getDate() {
         return date;
+    }
+
+    public void applyPromo(ArrayList<Promotion> listPromo, String promoCode) {
+        if (isPromoApplied()) {
+            System.out.println("APPLY_PROMO FAILED: " + promoCode);
+            return;
+        }
+        for (Promotion promotions : listPromo) {
+            if (promotions.getPromoCode().equals(promoCode)) {
+                if (promotions.isPromoAvailable()) {
+                    if (promotions.isCustomerEligible(this)) {
+                        if (promotions instanceof Discount) {
+                            discount = promotions.getPercentOff();
+                            double temp = 0;
+                            if (discount / 100.0 * getSubTotal() > promotions.getMaxDiscount()) {
+                                temp = promotions.getMaxDiscount();
+                            } else {
+                                temp = discount / 100.0 * getSubTotal();
+                            }
+                            setTotalPurchase(getTotalPurchase() - (temp > promotions.getMaxDiscount() ? promotions.getMaxDiscount() : (double) discount / 100.0 * getTotalPurchase()));
+                            promo = (Discount) promotions;
+                        }
+                        else if (promotions instanceof CashbackPromo) {
+                            cashback = promotions.getPercentOff();
+                            promo = (CashbackPromo) promotions;
+                        }
+                        System.out.println("APPLY_PROMO SUCCESS: " + promoCode);
+                    } else {
+                        System.out.println("APPLY_PROMO FAILED: " + promoCode);
+                    }
+                    return;
+                } else {
+                    System.out.println("APPLY_PROMO FAILED: " + promoCode + " is EXPIRED");
+                    return;
+                }
+            }
+        }
+        System.out.println("APPLY_PROMO FAILED: " + promoCode);
+    }
+
+    public void checkOut() {
+        if (getBalance() >= getTotalPurchase()) {
+            System.out.println("CHECK_OUT SUCCESS: " + getId() + " " + memberName);
+            updateBalance(-getTotalPurchase() + getCashbackAmount());
+            orderHistory.put(orderCounter, listOrder);
+            checkedOut = true;
+            checkOutDate = LocalDate.now();
+            orderCounter++;
+        } else {
+            System.out.println("CHECK_OUT FAILED: " + getId() + " " + memberName + " INSUFFICIENT BALANCE");
+        }
+    }
+
+    public Promotion getPromo() {
+        return promo;
+    }
+
+    public boolean isPromoApplied() {
+        return promo != null;
+    }
+
+    public double calculateDiscount() {
+        return promo.getPercentOff() * getSubTotal() / 100.0;
+    }
+
+    public int getCashbackAmount() {
+        return cashback;
     }
 }

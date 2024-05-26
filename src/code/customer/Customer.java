@@ -1,108 +1,46 @@
 package code.customer;
 
-import java.time.LocalDate;
-import java.util.SortedMap;
-import java.util.TreeMap;
+
 import code.Order;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public abstract class Customer {
-    private String firstName, lastName, id, pin;
-    private double balance;
-    public boolean isOrdering;
-    private boolean active;
-    private int countLogin;
-    private ArrayList<Order> listOrder = new ArrayList<>();
-    public static SortedMap<Integer, Boolean> IDOrderList = new TreeMap<>();
+    private String id;
+    protected LocalDate checkOutDate;
+    private int balance;
+    private int totalPurchase;
+    private int subTotal;
+    protected static int orderCounter = 1;
+    protected boolean checkedOut = false;
+    protected ArrayList<Order> listOrder = new ArrayList<>();
+    protected Map<Integer, ArrayList<Order>> orderHistory = new HashMap<>();
 
     public Customer(String id, int balance){
         this.id = id;
         this.balance = balance;
     }
-    public Customer() {
-        this.firstName = "";
-        this.lastName = "";
-        this.pin = null;
-        this.id = null;
-        this.balance = 0;
-        this.isOrdering = false;
-        this.active = true;
-        this.countLogin = 0;
-    }
 
-    public void addIDOrder(int id) {
-        IDOrderList.put(id, false);
-    }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFullName() {
-        return firstName + " " + lastName;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPin(String pin) {
-        this.pin = pin;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public void addBalance(double d) {
+    public void updateBalance(double d) {
         this.balance += d;
-    }
-
-    public void minBalance(double d) {
-        this.balance -= d;
-    }
-
-    public void minLoginCount() {
-        this.countLogin--;
-    }
-
-    public void addLoginCount() {
-        this.countLogin++;
-        if (this.countLogin >= 3) {
-            this.blockAccount();
-        }
-    }
-
-    public void blockAccount() {
-        this.active = false;
-    }
-
-    public boolean isActive() {
-        return active;
     }
 
     public String getId() {
         return id;
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public String getPin() {
-        return pin;
-    }
-
-    public abstract void makeOrder();
-
-    public abstract boolean confirmPay(int orderNumber);
-
     public void addToCart(Order order) {
         listOrder.add(order);
+        totalPurchase += order.calculatePrice();
+        subTotal += order.calculatePrice();
     }
 
     public void removeFromCart(String menuID, int duration) {
@@ -116,6 +54,8 @@ public abstract class Customer {
             }
             if (temp != null) {
                 temp.updateDuration(-duration);
+                totalPurchase -= temp.getPricePerDuration() * duration;
+                subTotal -= temp.getPricePerDuration() * duration;
                 if (temp.getDuration() <= 0) {
                     listOrder.remove(temp);
                     System.out.println("REMOVE_FROM_CART SUCCESS: " + temp.getMenuName() + " " + temp.getNumberPlate() + " IS REMOVED");
@@ -124,7 +64,7 @@ public abstract class Customer {
                 }
             }
         } else {
-            System.out.println("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+            System.out.println("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
         }
     }
 
@@ -149,6 +89,45 @@ public abstract class Customer {
         return null;
     }
 
+    public ArrayList<Order> getOrders() {
+        return listOrder;
+    }
 
+    public void setTotalPurchase(double d) {
+        this.totalPurchase = (int) d;
+    }
 
+    public int getTotalPurchase() {
+        return totalPurchase;
+    }
+
+    public boolean hasCheckedOut() {
+        return checkedOut;
+    }
+
+    public LocalDate getCheckOutDate() {
+        return checkOutDate;
+    }
+
+    public int getOrderNumber(ArrayList<Order> listOrder) {
+        for (Map.Entry<Integer, ArrayList<Order>> history : orderHistory.entrySet()) {
+            if (history.getValue().equals(listOrder)) {
+                return history.getKey();
+            }
+        }
+        return 0;
+    }
+
+    public int getSubTotal() {
+        return subTotal;
+    }
+
+    public void updateTotalPurchase(int totalPurchase) {
+        this.totalPurchase += totalPurchase;
+        subTotal += totalPurchase;
+    }
+
+    public Map<Integer, ArrayList<Order>> getOrderHistory() {
+        return orderHistory;
+    }
 }

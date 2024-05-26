@@ -1,220 +1,404 @@
-//package code;
-//
-//import code.customer.*;
-//import code.promotion.CashbackPromo;
-//import code.promotion.PercentOffPromo;
-//import code.vehicle.*;
-//import java.text.DecimalFormat;
-//import java.util.*;
-//
-//public class Main {
-//    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        ArrayList<Customer> customers = new ArrayList<>();
-//        int choice, countLogin = 0;
-//        Customer current = null;
-//        boolean isLogin = false;
-//        do {
-//            Order order = new Order();
-//            System.out.println("WELCOME TO FILKOM TRAVEL");
-//            showMenu();
-//            System.out.print("PLEASE ENTER YOUR CHOICE : ");
-//            choice = sc.nextInt();
-//            sc.nextLine();
-//            switch (choice) {
-//                case 0:
-//                    System.out.println("Thank You ! ");
-//                    break;
-//                case 1:
-//                    if (!isLogin) {
-//                        Customer a = null;
-//                        while (a == null) {
-//                            System.out.println("Are you a guest or a member? (member/guest)");
-//                            String subscriptionType = sc.nextLine();
-//                            a = (order.register(sc, subscriptionType));
-//                            if (a == null) {
-//                                System.out.println("The option is not available. Please select again.");
-//                            }
-//                        }
-//                        customers.add(a);
-//                        System.out.println("Account successfully created. Here is your account information : ");
-//                        showInfoAccount(a);
-//                        System.out.println("Please login!");
-//                    } else {
-//                        System.out.println("Please logout first!");
-//                    }
-//                    break;
-//                case 2:
-//                    if (!isLogin) {
-//                        String[] dataLogin = (order.login(sc, customers));
-//                        boolean found = false;
-//                        for (Customer a1 : customers) {
-//                            if (a1.getFullName().equalsIgnoreCase(dataLogin[0])) {
-//                                if (a1.getId().equals(dataLogin[1])) {
-//                                    if (a1.getPin().equals(dataLogin[2])) {
-//                                        found = true;
-//                                        current = a1;
-//                                        isLogin = true;
-//                                        countLogin = 0;
-//                                        System.out.println("Successful Login");
-//                                        break;
-//                                    } else {
-//                                        System.out
-//                                                .println("Your pin is incorrect. You only have " + (2 - countLogin)
-//                                                        + " login opportunities left");
-//                                        countLogin++;
-//                                        if (countLogin >= 3) {
-//                                            a1.blockAccount();
-//                                            System.out.println(
-//                                                    "Your account has been banned due to repeated login errors.");
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        if (!found) {
-//                            System.out.println("Account not found. Please register first!");
-//                        }
-//                    } else {
-//                        System.out.println("Please logout first!");
-//                    }
-//                    break;
-//                case 3:
-//                    if (!isLogin) {
-//                        System.out.println("Please login first!");
-//                        break;
-//                    } else {
-//                        showInfoAccount(current);
-//                    }
-//                    break;
-//                case 4:
-//                    if (!isLogin) {
-//                        System.out.println("Please login first!");
-//                        break;
-//                    } else {
-//                        System.out.println("You are doing a top up.");
-//                        System.out.println("Enter the amount : ");
-//                        double x = sc.nextDouble();
-//                        sc.nextLine();
-//                        current.addBalance(x);
-//                        System.out.println("Balance successfully increased. Thank you!");
-//                    }
-//                    break;
-//                case 5:
-//                    Vehicle vehicle;
-//                    if (!isLogin) {
-//                        System.out.println("Please login first!");
-//                        break;
-//                    } else {
-//                        tampilkanVehicle();
-//                        vehicle = new Vehicle();
-//                        boolean lanjut = false;
-//                        do {
-//                            System.out.print("Input Vehicle Type Number : ");
-//                            int vehicleType = sc.nextInt();
-//                            switch (vehicleType) {
-//                                case 1:
-//                                    vehicle = new LargeVehicle();
-//                                    lanjut = true;
-//                                    break;
-//                                case 2:
-//                                    vehicle = new MediumVehicle();
-//                                    lanjut = true;
-//                                    break;
-//                                case 3:
-//                                    vehicle = new SmallVehicle();
-//                                    lanjut = true;
-//                                    break;
-//                                default:
-//                                    System.out.println("Invalid selection. Please select again!");
-//                                    break;
-//                            }
-//                        } while (!lanjut);
-//
-//                        System.out.print("Input Vehicle Quantity : ");
-//                        int quantity = sc.nextInt();
-//                        System.out.print("Input Duration (day) : ");
-//                        int duration = sc.nextInt();
-//                        order.setVehicle(vehicle);
-//                        order.setVehicleQuantity(quantity);
-//                        order.setDuration(duration);
-//                        double totalPrice = order.calculatePrice();
-//                        if (totalPrice > current.getBalance()) {
-//                            System.out.println("Sorry, you don't have enough balance.");
-//                            break;
-//                        } else {
-//                            System.out.println("Total price : " + DecimalFormat.getCurrencyInstance().format(totalPrice));
-//
-//                            order.applyPromo(new CashbackPromo());
-//                            order.applyPromo(new PercentOffPromo());
-//                            current.addIDOrder(order.getOrderNumber());
-//                            order.checkOut();
-//                        }
-//
-//                        System.out.println("\nInput Order ID to confirm the purchase : ");
-//                        int orderID = sc.nextInt();
-//                        current.confirmPay(orderID-1);
-//
-//                        if (current.confirmPay(orderID-1)) {
-//                            System.out.print("Enter to Pay 1 (yes) or 0 (no) : ");
-//                            int choicePay = sc.nextInt();
-//
-//                            if (choicePay == 1) {
-//                                order.pay();
-//                                current.minBalance(order.getTotalPrice());
-//                                System.out.println("Current balance : " + DecimalFormat.getCurrencyInstance().format(current.getBalance()));
-//                                System.out.println("Purchase successful!");
-//                                order.printDetails();
-//                            } else {
-//                                System.out.println("Failed to Purchase");
-//                            }
-//                        }
-//
-//                    }
-//                    break;
-//                case 6:
-//                    if (!isLogin) {
-//                        System.out.println("Please login first!");
-//                        break;
-//                    } else {
-//                        current = null;
-//                        isLogin = false;
-//                    }
-//                    break;
-//                default:
-//                    System.out.println("Invalid selection. Please select again!");
-//                    break;
-//            }
-//        } while (choice != 0);
-//        sc.close();
-//    }
-//
-//    public static void showMenu() {
-//        System.out.println("MENU : ");
-//        System.out.println("0. Exit");
-//        System.out.println("1. Register");
-//        System.out.println("2. Login");
-//        System.out.println("3. Show Account Information");
-//        System.out.println("4. Top Up");
-//        System.out.println("5. Order");
-//        System.out.println("6. Log out");
-//    }
-//
-//    public static void showInfoAccount(Customer account) {
-//        System.out.println("Name : " + account.getFullName());
-//        System.out.println("ID : " + account.getId());
-//        System.out.println("Balance : " + DecimalFormat.getCurrencyInstance().format(account.getBalance()));
-//    }
-//
-//    public static void tampilkanVehicle() {
-//        System.out.println("Vehicle list:");
-//        System.out.println("+----------------------------------------------------+");
-//        System.out.println("| No. | Vehicle           | Capacity  | Price        |");
-//        System.out.println("+----------------------------------------------------+");
-//        System.out.println("| 1.  | Large Vehicle     | 8         | Rp. 250.000  |");
-//        System.out.println("| 2.  | Medium Vehicle    | 6         | Rp. 150.000  |");
-//        System.out.println("| 3.  | Small Vehicle     | 4         | Rp. 100.000  |");
-//        System.out.println("+----------------------------------------------------+");
-//
-//    }
-//}
+package code;
+
+import code.customer.*;
+import code.promotion.*;
+import code.vehicle.*;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        ArrayList<Customer> listCustomer = new ArrayList<>();
+        ArrayList<Order> listMenu = new ArrayList<>();
+        ArrayList<Promotion> listPromotion = new ArrayList<>();
+        String[] inputSplit;
+        String input;
+
+        do {
+            input = sc.nextLine();
+            inputSplit = input.split(" ", 3);
+            if (inputSplit[0].equals("CREATE")) {
+                String[] data = inputSplit[2].split("\\|");
+                if (inputSplit[1].equals("MEMBER")) {
+                    String memberId = data[0];
+                    String memberName = data[1];
+                    LocalDate date = LocalDate.parse(data[2], formatter);
+                    int Memberbudget = Integer.parseInt(data[3]);
+                    if (!isIDExist(listCustomer, memberId)) {
+                        listCustomer.add(new Member(memberId, memberName, date, Memberbudget));
+                        System.out.println("CREATE MEMBER SUCCESS: " + memberId + " " + memberName);
+                    } else {
+                        System.out.println("CREATE MEMBER FAILED: " + memberId + " IS EXISTS");
+                    }
+                } else if (inputSplit[1].equals("GUEST")) {
+                    String guestID = data[0];
+                    int guestBudget = Integer.parseInt(data[1]);
+                    if (!isIDExist(listCustomer, guestID)) {
+                        listCustomer.add(new Guest(guestID, guestBudget));
+                        System.out.println("CREATE GUEST SUCCESS: " + guestID);
+                    } else {
+                        System.out.println("CREATE GUEST FAILED: " + guestID + " IS EXISTS");
+                    }
+                } else if (inputSplit[1].equals("MENU")) {
+                    inputSplit = input.split(" ", 4);
+                    data = inputSplit[3].split("\\|");
+                    String menuID = data[0];
+                    String menuName = data[1];
+                    String numberPlate = data[2];
+                    int price = Integer.parseInt(data[3]);
+                    if (isMenuIDExist(listMenu, menuID)) {
+                        System.out.println("CREATE MENU FAILED: " + menuID + " IS EXISTS");
+                    } else if (isNumberPlateExist(listMenu, numberPlate)) {
+                        System.out.println("CREATE MENU FAILED: " + numberPlate + " IS EXISTS");
+                    } else {
+                        if (inputSplit[2].equals("MOBIL")) {
+                            String customType = data[4];
+                            if (!isMenuIDExist(listMenu, menuID) || !isNumberPlateExist(listMenu, numberPlate)) {
+                                listMenu.add(new Order(menuID, menuName, numberPlate, price, customType));
+                            }
+                        } else if (inputSplit[2].equals("MOTOR")) {
+                            if (!isMenuIDExist(listMenu, menuID) || !isNumberPlateExist(listMenu, numberPlate)) {
+                                listMenu.add(new Order(menuID, menuName, numberPlate, price));
+                            }
+                        }
+                        System.out.println("CREATE MENU SUCCESS " + menuID + " " + menuName + " " + numberPlate);
+                    }
+                } else if (inputSplit[1].equals("PROMO")) {
+                    inputSplit = input.split(" ");
+                    data = inputSplit[3].split("\\|");
+                    String promoCode = data[0];
+                    LocalDate startDate = LocalDate.parse(data[1], formatter);
+                    LocalDate endDate = LocalDate.parse(data[2], formatter);
+                    int percentOff = Integer.parseInt(data[3].replace("%", ""));
+                    int maxPromoAmount = Integer.parseInt(data[4]);
+                    int minPurchase = Integer.parseInt(data[5]);
+                    if (!isPromoExist(listPromotion, promoCode)) {
+                        if (inputSplit[2].equals("CASHBACK")) {
+                            listPromotion.add(new CashbackPromo(promoCode, startDate, endDate, percentOff, maxPromoAmount, minPurchase));
+                            System.out.println("CREATE PROMO CASHBACK SUCCESS: " + promoCode);
+                        } else if (inputSplit[2].equals("DISCOUNT")) {
+                            listPromotion.add(new Discount(promoCode, startDate, endDate, percentOff, maxPromoAmount, minPurchase));
+                            System.out.println("CREATE PROMO DISCOUNT SUCCESS: " + promoCode);
+                        }
+                    } else {
+                        if (inputSplit[2].equals("CASHBACK")) {
+                            System.out.println("CREATE PROMO CASHBACK FAILED: " + promoCode + " IS EXISTS");
+                        } else if (inputSplit[2].equals("DISCOUNT")) {
+                            System.out.println("CREATE PROMO DISCOUNT FAILED: " + promoCode + " IS EXISTS");
+                        }
+                    }
+                }
+            }
+
+            if (inputSplit[0].equals("ADD_TO_CART")) {
+                inputSplit = input.split(" ");
+                String addOrderID = inputSplit[1];
+                String addMenuID = inputSplit[2];
+                int addQuantity = Integer.parseInt(inputSplit[3]);
+                LocalDate addStartLoanDate = LocalDate.parse(inputSplit[4], formatter);
+                if (isCustomerExist(listCustomer, addOrderID) && isMenuIDExist(listMenu, addMenuID)) {
+                    Customer customer = getCustomer(listCustomer, addOrderID);
+                    if (customer != null) {
+                        listCustomer.remove(customer);
+                        Order newOrder = getOrder(listMenu, addMenuID);
+                        boolean isUpdated = false;
+                        if (customer.isOrderExist(addMenuID)) {
+                            Order order = customer.getOrder(addMenuID);
+                            if (order != null) {
+                                order.updateDuration(addQuantity);
+                                isUpdated = true;
+                                customer.updateTotalPurchase(addQuantity * order.getPricePerDuration());
+                            }
+                        } else {
+                            newOrder.setBookingDate(addStartLoanDate);
+                            newOrder.setDuration(addQuantity);
+                            customer.addToCart(newOrder);
+                        }
+                        listCustomer.add(customer);
+                        System.out.printf("ADD_TO_CART SUCCESS: %d %s %s %s %s\n", addQuantity, (addQuantity > 1 ? "days" : "day"), newOrder.getMenuName(), newOrder.getNumberPlate(), (isUpdated ? "(UPDATED)" : "(NEW)"));
+                    } else {
+                        System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+                    }
+                } else {
+                    System.out.println("ADD_TO_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+                }
+            }
+
+            if (inputSplit[0].equals("REMOVE_FROM_CART")) {
+                inputSplit = input.split(" ");
+                String removeOrderID = inputSplit[1];
+                String removeMenuID = inputSplit[2];
+                int removeDuration = Integer.parseInt(inputSplit[3]);
+                if (isCustomerExist(listCustomer, removeOrderID)) {
+                    Customer customer = getCustomer(listCustomer, removeOrderID);
+                    if (customer.isOrderExist(removeMenuID)) {
+                        listCustomer.remove(customer);
+                        customer.removeFromCart(removeMenuID, removeDuration);
+                        listCustomer.add(customer);
+                    } else {
+                        System.out.println("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+                    }
+                } else {
+                    System.out.println("REMOVE_FROM_CART FAILED: NON EXISTENT CUSTOMER OR MENU");
+                }
+            }
+
+            if (inputSplit[0].equals("APPLY_PROMO")) {
+                String applyOrderID = inputSplit[1];
+                String applyPromoCode = inputSplit[2];
+                if (isCustomerExist(listCustomer, applyOrderID)){
+                    if (isPromoExist(listPromotion, applyPromoCode)) {
+                        Customer customer = getCustomer(listCustomer, applyOrderID);
+                        if (customer instanceof Member) {
+                            Member temp = (Member) customer;
+                            listCustomer.remove(temp);
+                            temp.applyPromo(listPromotion, applyPromoCode);
+                            listCustomer.add(temp);
+                        } else {
+                            System.out.println("APPLY_PROMO FAILED: " + applyPromoCode);
+                        }
+                    } else {
+                        System.out.println("APPLY_PROMO FAILED: " + applyPromoCode);
+                    }
+                } else {
+                    System.out.println("APPLY_PROMO FAILED: " + applyPromoCode);
+                }
+            }
+
+            if (inputSplit[0].equals("TOPUP")) {
+                String topUpOrderID = inputSplit[1];
+                int topUpBudget = Integer.parseInt(inputSplit[2]);
+                if (isCustomerExist(listCustomer, topUpOrderID)){
+                    Customer customer = getCustomer(listCustomer, topUpOrderID);
+                    if (customer != null) {
+                        int initBalance = customer.getBalance();
+                        listCustomer.remove(customer);
+                        customer.updateBalance(topUpBudget);
+                        listCustomer.add(customer);
+                        if (customer instanceof Member){
+                            Member member = (Member) customer;
+                            System.out.printf("TOPUP SUCCESS: %s %d => %d\n", member.getMemberName(), initBalance, member.getBalance());
+                        } else if(customer instanceof Guest){
+                            Guest guest = (Guest) customer;
+                            System.out.printf("TOPUP SUCCESS: GUEST %d => %d\n", initBalance, guest.getBalance());
+                        }
+                    } else {
+                        System.out.println("TOPUP FAILED: NON EXISTENT CUSTOMER");
+                    }
+                } else {
+                    System.out.println("TOPUP FAILED: NON EXISTENT CUSTOMER");
+                }
+            }
+
+            if (inputSplit[0].equals("CHECK_OUT")) {
+                String checkoutOrderID = inputSplit[1];
+                if (isCustomerExist(listCustomer, checkoutOrderID)){
+                    Customer customer = getCustomer(listCustomer, checkoutOrderID);
+                    if (customer instanceof Member) {
+                        Member temp = (Member) customer;
+                        listCustomer.remove(temp);
+                        temp.checkOut();
+                        listCustomer.add(temp);
+                    }
+                    if (customer instanceof Guest) {
+                        Guest temp = (Guest) customer;
+                        listCustomer.remove(temp);
+                        temp.checkOut();
+                        listCustomer.add(temp);
+                    }
+                } else {
+                    System.out.println("NON EXISTENT CUSTOMER");
+                }
+            }
+
+            if (inputSplit[0].equals("PRINT")) {
+                String printOrderID = inputSplit[1];
+                if (isCustomerExist(listCustomer, printOrderID)) {
+                    print(listCustomer, printOrderID);
+                }
+            }
+
+            if (inputSplit[0].equals("PRINT_HISTORY")) {
+                String printHistoryOrderID = inputSplit[1];
+                if (isCustomerExist(listCustomer, printHistoryOrderID)) {
+                    printHistory(listCustomer, printHistoryOrderID);
+                }
+            }
+        } while (!inputSplit[0].equals("exit"));
+        sc.close();
+    }
+
+    public static boolean isIDExist(ArrayList<Customer> listCustomer, String id){
+        for(Customer customer : listCustomer){
+            if(customer.getId().equals(id)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isMenuIDExist(ArrayList<Order> listOrder, String menuID){
+        for(Order order : listOrder){
+            if(order.getMenuID().equals(menuID)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isNumberPlateExist(ArrayList<Order> listOrder, String numberPlate){
+        for(Order order : listOrder){
+            if(order.getVehicle().getvehicleNumber().equals(numberPlate)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static boolean isPromoExist(ArrayList<Promotion> listPromo, String promoCode){
+        for(Promotion promo : listPromo){
+            if(promo.getPromoCode().equals(promoCode)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isCustomerExist(ArrayList<Customer> customers, String customerID) {
+        for (Customer customer : customers) {
+            if (customer.getId().equals(customerID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Customer getCustomer(ArrayList<Customer> customers, String customerID) {
+        for (Customer customer : customers) {
+            if (customer.getId().equals(customerID)) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
+    public static Order getOrder(ArrayList<Order> listOrder ,String menuID){
+        for(Order order : listOrder){
+            if(order.getMenuID().equals(menuID)){
+                return order;
+            }
+        }
+        return null;
+    }
+
+    public static void print(ArrayList<Customer> customers, String printOrderID) {
+        Customer customer = getCustomer(customers, printOrderID);
+        int counter = 1;
+        if (customer instanceof Member) {
+            Member temp = (Member) customer;
+            System.out.println("Kode Pemesan: " + temp.getId());
+            System.out.println("Nama: " + temp.getFirstName());
+            ArrayList<Order> listOrder = temp.getOrders();
+            if (temp.hasCheckedOut()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("id-ID"));
+                System.out.println("Nomor Pesanan: " + temp.getOrderNumber(listOrder));
+                System.out.println("Tanggal Pesanan: " + temp.getCheckOutDate().format(formatter));
+            }
+            System.out.printf("%3s | %-25s | %4s | %10s \n", "No", "Menu", "Dur.", "Subtotal");
+            System.out.println("=====================================================");
+            for (Order orders : listOrder) {
+                System.out.printf("%3d | %-25s | %4d | %10s \n", counter, orders.getMenuName(), orders.getDuration(), String.format("%,d", orders.calculatePrice()).replace(",", "."));
+                System.out.printf("%5s %s - %s\n", " ", orders.getStartDate(), orders.getEndDate());
+                counter++;
+            }
+            System.out.println("=====================================================");
+            System.out.printf("%-32s: %17s\n", "Sub Total", String.format("%,d", temp.getSubTotal()).replace(",", "."));
+            if (temp.isPromoApplied() && temp.getPromo() instanceof Discount) {
+                System.out.printf("%-32s: %17s\n", "PROMO: " + temp.getPromo().getPromoCode(), String.format("-%,.0f", temp.calculateDiscount()).replace(",", "."));
+            }
+            System.out.println("=====================================================");
+            System.out.printf("%-32s: %17s\n", "Total", String.format("%,d", temp.getTotalPurchase()).replace(",", "."));
+            if (temp.isPromoApplied() && temp.getPromo() instanceof CashbackPromo) {
+                System.out.printf("%-27s: %9s\n", "PROMO: " + temp.getPromo().getPromoCode(), String.format("%,.0f", temp.calculateDiscount()).replace(",", "."));
+            }
+            System.out.printf("%-32s: %17s\n", "Saldo", String.format("%,d", temp.getBalance()).replace(",", "."));
+        } else if (customer instanceof Guest) {
+            Guest temp = (Guest) customer;
+            System.out.println("Kode Pemesan: " + temp.getId());
+            System.out.println("Nama: NON_MEMBER");
+            ArrayList<Order> listOrder = temp.getOrders();
+            if (temp.hasCheckedOut()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("id-ID"));
+                System.out.println("Nomor Pesanan: " + temp.getOrderNumber(listOrder));
+                System.out.println("Tanggal Pesanan: " + temp.getCheckOutDate().format(formatter));
+            }
+            System.out.printf("%3s | %-25s | %4s | %10s \n", "No", "Menu", "Dur.", "Subtotal");
+            System.out.println("=====================================================");
+            for (Order orders : listOrder) {
+                System.out.printf("%3d | %-25s | %4d | %10s \n", counter, orders.getMenuName(), orders.getDuration(), String.format("%,d", orders.calculatePrice()).replace(",", "."));
+                System.out.printf("%5s %s - %s\n", " ", orders.getStartDate(), orders.getEndDate());
+                counter++;
+            }
+            System.out.println("=====================================================");
+            System.out.printf("%-32s: %17s\n", "Sub Total", String.format("%,d", temp.getSubTotal()).replace(",", "."));
+            System.out.println("=====================================================");
+            System.out.printf("%-32s: %17s\n", "Total", String.format("%,d", temp.getTotalPurchase()).replace(",", "."));
+            System.out.printf("%-32s: %17s\n", "Saldo", String.format("%,d", temp.getBalance()).replace(",", "."));
+        }
+    }
+
+    public static void printHistory(ArrayList<Customer> customers, String printOrderID) {
+        Customer customer = getCustomer(customers, printOrderID);
+        int counter = 1;
+        Map<Integer, ArrayList<Order>> orderHistory = customer.getOrderHistory();
+
+        if (customer instanceof Member) {
+            Member temp = (Member) customer;
+            int carAmount = 0, motorAmount = 0;
+            System.out.println("Kode Pemesan: " + temp.getId());
+            System.out.println("Nama: " + temp.getFirstName());
+            System.out.println("Saldo: " + temp.getBalance());
+            System.out.printf("%4s | %10s | %5s | %5s | %8s | %-8s\n", "No", "No. Pesanan", "Motor", "Mobil", "Subtotal", "PROMO");
+            System.out.println("=======================================================");
+            for (Entry<Integer, ArrayList<Order>> orders : orderHistory.entrySet()) {
+                ArrayList<Order> order = orders.getValue();
+                for (Order pointer : order) {
+                    if (pointer.getVehicle() instanceof Car) {
+                        carAmount++;
+                    } else if (pointer.getVehicle() instanceof Motorcycle) {
+                        motorAmount++;
+                    }
+                }
+                System.out.printf("%4d | %11d | %5d | %5d | %8d | %-8s\n", counter, orders.getKey(), motorAmount, carAmount, temp.getSubTotal(), temp.getPromo().getPromoCode());
+                counter++;
+            }
+            System.out.println("=======================================================");
+        } else if (customer instanceof Guest) {
+            Guest temp = (Guest) customer;
+            int carAmount = 0, motorAmount = 0;
+            System.out.println("Kode Pemesan: " + temp.getId());
+            System.out.println("Nama: NON_MEMBER");
+            System.out.println("Saldo: " + temp.getBalance());
+            System.out.printf("%4s | %10s | %5s | %5s | %8s | %-8s\n", "No", "No. Pesanan", "Motor", "Mobil", "Subtotal", "PROMO");
+            System.out.println("=======================================================");
+            for (Entry<Integer, ArrayList<Order>> orders : orderHistory.entrySet()) {
+                ArrayList<Order> order = orders.getValue();
+                for (Order pointer : order) {
+                    if (pointer.getVehicle() instanceof Car) {
+                        carAmount++;
+                    } else if (pointer.getVehicle() instanceof Motorcycle) {
+                        motorAmount++;
+                    }
+                }
+                System.out.printf("%4d | %11d | %5d | %5d | %8d | %-8s\n", counter, orders.getKey(), motorAmount, carAmount, temp.getSubTotal(), "-");
+                counter++;
+            }
+            System.out.println("=======================================================");
+        }
+    }
+}

@@ -1,29 +1,21 @@
 package code.customer;
 
+import java.time.LocalDate;
 public class Guest extends Customer {
-
     public Guest(String guestID, int guestBudget) {
         super(guestID,guestBudget);
     }
 
-
-
-
-
-    @Override
-    public void makeOrder() {
-        isOrdering = true;
-    }
-
-    @Override
-    public boolean confirmPay(int orderNumber) {
-        if (IDOrderList.containsKey(orderNumber)) {
-            IDOrderList.put(orderNumber, true);
-            System.out.println("This ID is valid. Please proceed with the payment.");
-            return true;
+    public void checkOut() {
+        if (getBalance() >= getTotalPurchase()) {
+            System.out.println("CHECK_OUT SUCCESS: " + getId() + " GUEST");
+            updateBalance(-getTotalPurchase());
+            orderHistory.put(orderCounter, listOrder);
+            checkedOut = true;
+            checkOutDate = LocalDate.now();
+            orderCounter++;
         } else {
-            System.out.println("This ID is invalid.");
-            return false;
+            System.out.println("CHECK_OUT FAILED: " + getId() + " GUEST INSUFFICIENT BALANCE");
         }
     }
 }

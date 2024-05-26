@@ -9,9 +9,6 @@ public class Vehicle {
         this.price = price;
     }
 
-    public Vehicle() {
-    }
-
     public String getvehicleNumber() {
         return numberPlate;
     }
