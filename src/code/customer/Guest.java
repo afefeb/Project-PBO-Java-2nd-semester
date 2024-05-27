@@ -6,6 +6,10 @@ public class Guest extends Customer {
         super(guestID,guestBudget);
     }
 
+    public void makeOrder() {
+        ordering = true;
+    }
+
     public void checkOut() {
         if (getBalance() >= calculateTotalPurchase()) {
             System.out.println("CHECK_OUT SUCCESS: " + getId() + " GUEST");

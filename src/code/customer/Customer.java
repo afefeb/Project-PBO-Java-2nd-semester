@@ -13,7 +13,7 @@ public abstract class Customer {
     private String id;
     protected LocalDate checkOutDate;
     private int balance;
-    public boolean ordering = false;
+    protected boolean ordering = false;
     private int totalPurchase;
     private int subTotal;
     protected static int orderCounter = 1;
@@ -26,6 +26,8 @@ public abstract class Customer {
         this.id = id;
         this.balance = balance;
     }
+
+    public abstract void makeOrder();
 
     public void updateBalance(double d) {
         this.balance += d;

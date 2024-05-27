@@ -21,6 +21,11 @@ public class Member extends Customer {
         this.date = date;
     }
 
+    @Override
+    public void makeOrder() {
+        ordering = true;
+    }
+
     public String getMemberName() {
         return memberName;
     }
