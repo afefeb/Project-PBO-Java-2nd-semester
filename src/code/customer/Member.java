@@ -54,13 +54,13 @@ public class Member extends Customer {
                             }
                             setTotalPurchase(calculateTotalPurchase());
                             Discount tempPromo = (Discount) promo;
-                            promoHistory.put(orderCounter, tempPromo);
+                            promoHistory.put(getCurrentOrderNumber(), tempPromo);
                         }
                         else if (promotions instanceof CashbackPromo) {
                             promo = (CashbackPromo) promotions;
                             cashback = promo.getPercentOff() / 100.0 * getSubTotal();
                             CashbackPromo tempPromo = (CashbackPromo) promo;
-                            promoHistory.put(orderCounter, tempPromo);
+                            promoHistory.put(getCurrentOrderNumber(), tempPromo);
                         }
                         System.out.println("APPLY_PROMO SUCCESS: " + promoCode);
                     } else {
