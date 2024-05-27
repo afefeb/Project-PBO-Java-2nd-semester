@@ -28,6 +28,10 @@ public class Order {
         this.duration = duration;
     }
 
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
     public int getPricePerDuration() {
         return vehicle.getPrice();
     }

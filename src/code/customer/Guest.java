@@ -7,13 +7,13 @@ public class Guest extends Customer {
     }
 
     public void checkOut() {
-        if (getBalance() >= getTotalPurchase()) {
+        if (getBalance() >= calculateTotalPurchase()) {
             System.out.println("CHECK_OUT SUCCESS: " + getId() + " GUEST");
-            updateBalance(-getTotalPurchase());
+            updateBalance(-calculateTotalPurchase());
             orderHistory.put(orderCounter, listOrder);
-            checkedOut = true;
             checkOutDate = LocalDate.now();
             orderCounter++;
+            this.reset();
         } else {
             System.out.println("CHECK_OUT FAILED: " + getId() + " GUEST INSUFFICIENT BALANCE");
         }

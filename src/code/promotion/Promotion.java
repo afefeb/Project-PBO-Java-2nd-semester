@@ -10,7 +10,7 @@ public abstract class Promotion implements Applicable{
     protected LocalDate startDate;
     protected LocalDate endDate ;
 
-    protected int percentOff;
+    protected double percentOff;
     protected int maxDiscount;
     protected int minPurchase;
 
@@ -31,7 +31,7 @@ public abstract class Promotion implements Applicable{
         return currentDate.isAfter(startDate) && currentDate.isBefore(endDate);
     }
 
-    public int getPercentOff() {
+    public double getPercentOff() {
         return percentOff;
     }
 
@@ -39,7 +39,7 @@ public abstract class Promotion implements Applicable{
     public boolean isCustomerEligible(Customer customer) {
         Member member = (Member) customer;
         LocalDate registerDate = member.getDate();
-        return (ChronoUnit.DAYS.between(registerDate, LocalDate.now()) > 30 && member.getTotalPurchase() >= minPurchase);
+        return (ChronoUnit.DAYS.between(registerDate, LocalDate.now()) > 30 && member.calculateTotalPurchase() >= minPurchase);
     }
 
     public int getMaxDiscount() {
